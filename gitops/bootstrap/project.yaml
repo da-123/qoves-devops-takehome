@@ -8,7 +8,7 @@ metadata:
 spec:
   description: QOVES take-home platform - app-of-apps root and children
   sourceRepos:
-    - https://github.com/qoves-devops-takehome/qoves-devops-takehome.git
+    - https://github.com/da-123/qoves-devops-takehome.git
     - https://charts.external-secrets.io
   destinations:
     - server: https://kubernetes.default.svc
