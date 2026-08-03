@@ -1,0 +1,15 @@
+# Database name is not a secret, so it lives here rather than in the Secret.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: qoves-app
+data:
+  POSTGRES_DB: qoves
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: postgres
+  namespace: qoves-app
+automountServiceAccountToken: false

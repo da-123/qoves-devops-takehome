@@ -1,0 +1,31 @@
+# App-of-apps root: points at a directory of child Applications, nothing else.
+# Adding a component to the platform = adding one file under gitops/apps/.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: qoves
+  source:
+    repoURL: https://github.com/qoves-devops-takehome/qoves-devops-takehome.git
+    targetRevision: main
+    path: gitops/apps
+    directory:
+      recurse: false
+      include: "*.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 15s
+        factor: 2
+        maxDuration: 5m

@@ -1,0 +1,18 @@
+# Anything that could hold a plaintext credential. The sealed ciphertext under
+# gitops/manifests/secrets/ is committed on purpose; nothing else is.
+*.env
+.env*
+secret-*.yaml
+*-secret.yaml
+*.dec.yaml
+*.decrypted.yaml
+sealed-secrets-key*.yaml
+*.key
+*.pem
+
+# Local noise
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+docs/PROOF.local.md

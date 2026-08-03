@@ -1,0 +1,40 @@
+# The only two things applied by hand: this AppProject and root-app.yaml.
+# Everything else in the cluster is reconciled from git by ArgoCD.
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: qoves
+  namespace: argocd
+spec:
+  description: QOVES take-home platform - app-of-apps root and children
+  sourceRepos:
+    - https://github.com/qoves-devops-takehome/qoves-devops-takehome.git
+    - https://charts.external-secrets.io
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: argocd
+    - server: https://kubernetes.default.svc
+      namespace: qoves-app
+    - server: https://kubernetes.default.svc
+      namespace: monitoring
+    - server: https://kubernetes.default.svc
+      namespace: vault
+    - server: https://kubernetes.default.svc
+      namespace: external-secrets
+  # Namespaces, the External Secrets CRDs, Vault's token-reviewer binding and
+  # Prometheus' RBAC are cluster-scoped. Listed explicitly rather than '*' so the
+  # project cannot quietly grow new powers.
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

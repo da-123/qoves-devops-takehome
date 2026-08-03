@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: qoves-app
+
+resources:
+  - 00-default-deny.yaml
+  - 10-allow-dns.yaml
+  - 20-allow-ingress-to-api.yaml
+  - 30-allow-api-to-postgres.yaml
+  - 40-allow-prometheus-scrape.yaml

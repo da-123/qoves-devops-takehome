@@ -1,0 +1,14 @@
+groups:
+  - name: qoves-api
+    rules:
+      - alert: QovesApiDatabaseUnreachable
+        expr: sum(rate(http_requests_total{path="/healthz",status="503"}[5m])) > 0
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: QOVES API cannot reach Postgres
+          description: >-
+            /healthz has been returning 503 for 3 minutes, so the API cannot open
+            a connection to Postgres. Every request that touches data is failing.
+          runbook_url: https://github.com/qoves-devops-takehome/qoves-devops-takehome/blob/main/docs/WRITEUP.md#5-one-runbook--the-database-pod-dies
